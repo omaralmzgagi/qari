@@ -1,0 +1,60 @@
+name: qari
+description: "QARI | قارئ — Read it. Understand it. Continue it."
+publish_to: 'none'
+
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+
+  # State Management
+  flutter_riverpod: ^2.6.1
+
+  # Navigation
+  go_router: ^14.8.1
+
+  # Local Database (Offline-First)
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  # Storage & Settings
+  path_provider: ^2.1.5
+  shared_preferences: ^2.3.4
+
+  # Localization
+  intl: ^0.19.0
+
+  # Firebase Foundation
+  firebase_core: ^3.6.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/branding/
+    - assets/login/
+
+  # To replace the brand fonts, place the font files here and uncomment:
+  # fonts:
+  #   - family: QariLatin
+  #     fonts:
+  #       - asset: assets/fonts/Inter-Regular.ttf
+  #       - asset: assets/fonts/Inter-Bold.ttf
+  #         weight: 700
+  #   - family: QariArabic
+  #     fonts:
+  #       - asset: assets/fonts/NotoNaskhArabic-Regular.ttf
+  #       - asset: assets/fonts/NotoNaskhArabic-Bold.ttf
+  #         weight: 700
