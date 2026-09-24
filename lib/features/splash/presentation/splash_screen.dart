@@ -65,8 +65,16 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     if (!mounted) return;
 
     final router = ref.read(routerProvider);
-    final isAuthenticated = ref.read(authStateProvider).isAuthenticated;
-    router.go(isAuthenticated ? RoutePaths.home : RoutePaths.welcome);
+    final auth = ref.read(authStateProvider);
+    if (auth.isError) {
+      // Stay on splash; caller may retry via AuthController.retry().
+      return;
+    }
+    if (auth.requiresEmailVerification) {
+      router.go(RoutePaths.emailVerification);
+      return;
+    }
+    router.go(auth.isAuthenticated ? RoutePaths.home : RoutePaths.welcome);
   }
 
   @override

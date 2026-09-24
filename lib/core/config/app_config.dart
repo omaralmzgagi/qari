@@ -14,13 +14,13 @@ abstract final class AppConfig {
 
   static const AppThemeMode defaultThemeMode = AppThemeMode.system;
 
-  /// Whether to show real login UI (PHASE 02+) or the placeholder button.
-  static const bool authEnabled = false;
+  /// Whether to show real login UI (PHASE 03+) or the placeholder button.
+  static const bool authEnabled = true;
 
   /// Whether Firebase has been configured in this build.
   ///
-  /// Keep `true` only once `google-services.json` (Android) /
-  /// `GoogleService-Info.plist` (iOS) are present and `AppFirebaseOptions`
-  /// contains real credentials.
-  static const bool firebaseConfigured = false;
+  /// `true` only once `google-services.json` (Android) /
+  /// `GoogleService-Info.plist` (iOS) are present and [AppFirebaseOptions]
+  /// points at real credentials (project `qari-4e344`).
+  static const bool firebaseConfigured = true;
 }

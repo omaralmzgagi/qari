@@ -260,4 +260,133 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get back => 'رجوع';
+
+  @override
+  String get loginTitle => 'تسجيل الدخول';
+
+  @override
+  String get loginSubtitle => 'مرحبًا بعودتك. سجّل الدخول للمتابعة.';
+
+  @override
+  String get loginSubmit => 'دخول';
+
+  @override
+  String get registerTitle => 'إنشاء حساب';
+
+  @override
+  String get registerSubtitle => 'انضم إلى قارئ لمزامنة قراءاتك عبر أجهزتك.';
+
+  @override
+  String get registerSubmit => 'إنشاء الحساب';
+
+  @override
+  String get forgotPasswordTitle => 'إعادة تعيين كلمة المرور';
+
+  @override
+  String get forgotPasswordSubtitle => 'أدخل بريدك الإلكتروني وسنرسل رابط إعادة التعيين.';
+
+  @override
+  String get sendResetLink => 'إرسال رابط إعادة التعيين';
+
+  @override
+  String get resetEmailSent => 'تم إرسال بريد إعادة التعيين. تحقق من صندوق واردك.';
+
+  @override
+  String get backToLogin => 'العودة لتسجيل الدخول';
+
+  @override
+  String get forgotPasswordLink => 'نسيت كلمة المرور؟';
+
+  @override
+  String get noAccountCreateOne => 'ليس لديك حساب؟ أنشئ حسابًا';
+
+  @override
+  String get haveAccountSignIn => 'لديك حساب بالفعل؟ سجّل الدخول';
+
+  @override
+  String get authEmailLabel => 'البريد الإلكتروني';
+
+  @override
+  String get authPasswordLabel => 'كلمة المرور';
+
+  @override
+  String get authConfirmPasswordLabel => 'تأكيد كلمة المرور';
+
+  @override
+  String get authNameLabel => 'الاسم (اختياري)';
+
+  @override
+  String get authPasswordHint => '6 أحرف على الأقل';
+
+  @override
+  String get verifyTitle => 'تحقق من بريدك';
+
+  @override
+  String get verifySubtitle => 'أرسلنا رابط تحقق إلى بريدك الإلكتروني.';
+
+  @override
+  String get verifyEmailSent => 'تم إعادة إرسال بريد التحقق.';
+
+  @override
+  String get verifyIHaveVerified => 'لقد تحققت — متابعة';
+
+  @override
+  String get verifyResend => 'إعادة إرسال بريد التحقق';
+
+  @override
+  String get verifySignOut => 'تسجيل الخروج';
+
+  @override
+  String get verifyStillUnverified => 'لم يتم التحقق من البريد بعد. افتح الرابط المرسل ثم أعد المحاولة.';
+
+  @override
+  String get authErrorInvalidEmail => 'يرجى إدخال بريد إلكتروني صحيح.';
+
+  @override
+  String get authErrorUserNotFound => 'لا يوجد حساب بهذا البريد.';
+
+  @override
+  String get authErrorWrongPassword => 'البريد أو كلمة المرور غير صحيحة.';
+
+  @override
+  String get authErrorEmailAlreadyInUse => 'يوجد حساب بهذا البريد بالفعل.';
+
+  @override
+  String get authErrorWeakPassword => 'كلمة المرور ضعيفة. استخدم 6 أحرف على الأقل.';
+
+  @override
+  String get authErrorUserDisabled => 'تم تعطيل هذا الحساب.';
+
+  @override
+  String get authErrorTooManyRequests => 'محاولات كثيرة. حاول لاحقًا.';
+
+  @override
+  String get authErrorNetwork => 'خطأ في الشبكة. تحقق من اتصالك وأعد المحاولة.';
+
+  @override
+  String get authErrorInvalidCredential => 'بيانات الدخول غير صحيحة. حاول مجددًا.';
+
+  @override
+  String get authErrorAccountExistsDifferent => 'يوجد حساب بنفس البريد بطريقة دخول مختلفة.';
+
+  @override
+  String get authErrorOperationNotAllowed => 'تسجيل الدخول غير مفعّل بعد.';
+
+  @override
+  String get authErrorGoogleCancelled => 'أُلغي تسجيل الدخول عبر Google.';
+
+  @override
+  String get authErrorGoogleFailed => 'فشل تسجيل الدخول عبر Google. حاول مجددًا.';
+
+  @override
+  String get authErrorUnknown => 'حدث خطأ ما. حاول مجددًا.';
+
+  @override
+  String get authErrorPasswordRequired => 'كلمة المرور مطلوبة.';
+
+  @override
+  String get authErrorPasswordTooShort => 'يجب أن تكون كلمة المرور 6 أحرف على الأقل.';
+
+  @override
+  String get authErrorPasswordMismatch => 'كلمتا المرور غير متطابقتين.';
 }

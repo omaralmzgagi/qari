@@ -1,11 +1,43 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/config/app_config.dart';
+import '../domain/entities/app_user.dart';
+import '../domain/entities/auth_result.dart';
+import '../domain/entities/auth_user.dart';
+import '../domain/failures/auth_failure.dart';
+import '../domain/gateways/auth_gateway.dart';
+import '../data/auth_gateway_providers.dart';
 import '../data/session_providers.dart';
 import '../data/session_store.dart';
-import '../domain/entities/app_user.dart';
 
-enum AuthStatus { unknown, unauthenticated, authenticated }
+/// Whether real Firebase authentication flows are active.
+///
+/// Defaults to `AppConfig.authEnabled`; tests override with `true` + a
+/// `FakeAuthGateway` on `authGatewayProvider`.
+final authEnabledProvider = Provider<bool>(
+  (ref) => AppConfig.authEnabled,
+);
+
+/// Coarse session status for routing and UI.
+enum AuthStatus {
+  /// Restoring session / awaiting first auth snapshot.
+  unknown,
+
+  /// No signed-in user.
+  unauthenticated,
+
+  /// Signed in and email verified (or Google) — full app access.
+  authenticated,
+
+  /// Signed in but email not yet verified.
+  emailVerificationRequired,
+
+  /// A recoverable session/auth error (retry available).
+  error,
+}
 
 /// Immutable authentication state.
 @immutable
@@ -13,17 +45,27 @@ class AuthState {
   const AuthState({
     required this.status,
     this.user,
+    this.failure,
   });
 
   final AuthStatus status;
   final AppUser? user;
+  final AuthFailure? failure;
 
   bool get isAuthenticated => status == AuthStatus.authenticated;
 
   bool get isUnknown => status == AuthStatus.unknown;
 
-  factory AuthState.unknown() =>
-      const AuthState(status: AuthStatus.unknown);
+  bool get isUnauthenticated => status == AuthStatus.unauthenticated;
+
+  bool get requiresEmailVerification =>
+      status == AuthStatus.emailVerificationRequired;
+
+  bool get isError => status == AuthStatus.error;
+
+  bool get hasUser => user != null;
+
+  factory AuthState.unknown() => const AuthState(status: AuthStatus.unknown);
 
   factory AuthState.unauthenticated() =>
       const AuthState(status: AuthStatus.unauthenticated);
@@ -31,38 +73,190 @@ class AuthState {
   factory AuthState.authenticated(AppUser user) =>
       AuthState(status: AuthStatus.authenticated, user: user);
 
-  AuthState copyWith({AuthStatus? status, AppUser? user}) {
-    return AuthState(status: status ?? this.status, user: user ?? this.user);
+  factory AuthState.emailVerificationRequired(AppUser user) =>
+      AuthState(status: AuthStatus.emailVerificationRequired, user: user);
+
+  factory AuthState.error(AuthFailure failure, {AppUser? user}) =>
+      AuthState(status: AuthStatus.error, failure: failure, user: user);
+
+  AuthState copyWith({
+    AuthStatus? status,
+    AppUser? user,
+    AuthFailure? failure,
+    bool clearUser = false,
+    bool clearFailure = false,
+  }) {
+    return AuthState(
+      status: status ?? this.status,
+      user: clearUser ? null : (user ?? this.user),
+      failure: clearFailure ? null : (failure ?? this.failure),
+    );
   }
 }
 
-/// Manages the local authentication session.
+/// Manages the authentication session (PHASE 02 local store + PHASE 03
+/// Firebase gateway).
 ///
-/// Real authentication (Google Sign-In, email verification, Root login,
-/// password reset) is implemented in PHASE 03. This controller already owns
-/// the session lifecycle that those flows will drive.
+/// Single listener on `authStateChanges` — screens call the action methods
+/// and read [authStateProvider]; they do not open their own stream listeners.
 class AuthController extends AutoDisposeNotifier<AuthState> {
   SessionStore get _store => ref.read(sessionStoreProvider);
 
-  @override
-  AuthState build() => AuthState.unknown();
+  AuthGateway get _gateway => ref.read(authGatewayProvider);
 
-  /// Restores the persisted session from local storage.
+  bool get _enabled => ref.read(authEnabledProvider);
+
+  StreamSubscription<AuthUser?>? _subscription;
+
+  @override
+  AuthState build() {
+    ref.onDispose(_subscription?.cancel ?? () {});
+    if (_enabled) {
+      _subscribe();
+    }
+    return AuthState.unknown();
+  }
+
+  void _subscribe() {
+    _subscription ??= _gateway.authStateChanges.listen(
+      _onAuthEvent,
+      onError: (Object _) {
+        state = AuthState.error(
+          const AuthFailure(code: AuthFailureCode.networkRequestFailed),
+          user: state.user,
+        );
+      },
+    );
+  }
+
+  void _onAuthEvent(AuthUser? user) {
+    if (user == null) {
+      state = AuthState.unauthenticated();
+      return;
+    }
+    _applyAuthUser(user, persist: true);
+  }
+
+  /// Restores the persisted session and, when auth is enabled, the Firebase
+  /// user snapshot.
   Future<void> restoreSession() async {
+    if (_enabled) {
+      _subscribe();
+      final user = _gateway.currentUser;
+      if (user != null) {
+        _applyAuthUser(user, persist: true);
+        return;
+      }
+      final cached = await _store.read();
+      if (cached != null) {
+        await _store.write(null);
+      }
+      state = AuthState.unauthenticated();
+      return;
+    }
+
     final user = await _store.read();
     state = user == null
         ? AuthState.unauthenticated()
         : AuthState.authenticated(user);
   }
 
-  /// Registers a successful sign-in (used by PHASE 03 flows).
-  Future<void> signIn(AppUser user) async {
-    await _store.write(user);
-    state = AuthState.authenticated(user);
+  Future<AuthResult<AuthUser>> signInWithEmail({
+    required String email,
+    required String password,
+  }) async {
+    if (!_enabled) return _disabled<AuthUser>();
+    final result = await _gateway.signInWithEmail(
+      email: email,
+      password: password,
+    );
+    return _handleUserResult(result);
   }
 
-  Future<void> signOut() async {
+  Future<AuthResult<AuthUser>> registerWithEmail({
+    required String email,
+    required String password,
+    String? displayName,
+  }) async {
+    if (!_enabled) return _disabled<AuthUser>();
+    final result = await _gateway.registerWithEmail(
+      email: email,
+      password: password,
+      displayName: displayName,
+    );
+    return _handleUserResult(result);
+  }
+
+  Future<AuthResult<AuthUser>> signInWithGoogle() async {
+    if (!_enabled) return _disabled<AuthUser>();
+    final result = await _gateway.signInWithGoogle();
+    return _handleUserResult(result);
+  }
+
+  Future<AuthResult<void>> signOut() async {
+    AuthResult<void> result;
+    if (_enabled) {
+      result = await _gateway.signOut();
+    } else {
+      result = const AuthSuccess<void>(null);
+    }
     await _store.write(null);
     state = AuthState.unauthenticated();
+    return result;
   }
+
+  Future<AuthResult<void>> sendPasswordResetEmail({
+    required String email,
+  }) async {
+    if (!_enabled) return _disabled<void>();
+    return _gateway.sendPasswordResetEmail(email: email);
+  }
+
+  Future<AuthResult<void>> sendEmailVerification() async {
+    if (!_enabled) return _disabled<void>();
+    return _gateway.sendEmailVerification();
+  }
+
+  /// Reloads the Firebase user (after the user clicks the verification link).
+  Future<AuthResult<AuthUser>> reloadUser() async {
+    if (!_enabled) return _disabled<AuthUser>();
+    final result = await _gateway.reloadUser();
+    return _handleUserResult(result);
+  }
+
+  /// Clears a terminal error and re-reads the session.
+  Future<void> retry() => restoreSession();
+
+  AuthResult<T> _disabled<T>() => AuthFailureResult<T>(
+        const AuthFailure(code: AuthFailureCode.operationNotAllowed),
+      );
+
+  AuthResult<AuthUser> _handleUserResult(AuthResult<AuthUser> result) {
+    if (result is AuthFailureResult<AuthUser>) {
+      return result;
+    }
+    final success = result as AuthSuccess<AuthUser>;
+    _applyAuthUser(success.value, persist: true);
+    return result;
+  }
+
+  void _applyAuthUser(AuthUser user, {required bool persist}) {
+    final appUser = _toAppUser(user);
+    if (persist) {
+      unawaited(_store.write(appUser));
+    }
+    if (user.emailVerified) {
+      state = AuthState.authenticated(appUser);
+    } else {
+      state = AuthState.emailVerificationRequired(appUser);
+    }
+  }
+
+  AppUser _toAppUser(AuthUser user) => AppUser(
+        id: user.uid,
+        email: user.email,
+        name: user.displayName,
+        photoUrl: user.photoUrl,
+        role: user.role,
+      );
 }

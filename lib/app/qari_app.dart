@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/config/branding/brand_info.dart';
-import '../features/auth/application/auth_controller.dart';
 import '../features/auth/presentation/auth_providers.dart';
 import '../localization/generated/app_localizations.dart';
 import '../theme/qari_theme.dart';

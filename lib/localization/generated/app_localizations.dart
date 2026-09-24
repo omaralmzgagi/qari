@@ -604,6 +604,264 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Back'**
   String get back;
+
+  /// No description provided for @loginTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get loginTitle;
+
+  /// No description provided for @loginSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back. Sign in to continue.'**
+  String get loginSubtitle;
+
+  /// No description provided for @loginSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get loginSubmit;
+
+  /// No description provided for @registerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get registerTitle;
+
+  /// No description provided for @registerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Join QARI to sync your reading across devices.'**
+  String get registerSubtitle;
+
+  /// No description provided for @registerSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get registerSubmit;
+
+  /// No description provided for @forgotPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset password'**
+  String get forgotPasswordTitle;
+
+  /// No description provided for @forgotPasswordSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email and we\'ll send a reset link.'**
+  String get forgotPasswordSubtitle;
+
+  /// No description provided for @sendResetLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Send reset link'**
+  String get sendResetLink;
+
+  /// No description provided for @resetEmailSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset email sent. Check your inbox.'**
+  String get resetEmailSent;
+
+  /// No description provided for @backToLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to sign in'**
+  String get backToLogin;
+
+  /// No description provided for @forgotPasswordLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password?'**
+  String get forgotPasswordLink;
+
+  /// No description provided for @noAccountCreateOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? Create one'**
+  String get noAccountCreateOne;
+
+  /// No description provided for @haveAccountSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? Sign in'**
+  String get haveAccountSignIn;
+
+  /// No description provided for @authEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get authEmailLabel;
+
+  /// No description provided for @authPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get authPasswordLabel;
+
+  /// No description provided for @authConfirmPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm password'**
+  String get authConfirmPasswordLabel;
+
+  /// No description provided for @authNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name (optional)'**
+  String get authNameLabel;
+
+  /// No description provided for @authPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'At least 6 characters'**
+  String get authPasswordHint;
+
+  /// No description provided for @verifyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify your email'**
+  String get verifyTitle;
+
+  /// No description provided for @verifySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a verification link to your email address.'**
+  String get verifySubtitle;
+
+  /// No description provided for @verifyEmailSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification email sent again.'**
+  String get verifyEmailSent;
+
+  /// No description provided for @verifyIHaveVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'ve verified — continue'**
+  String get verifyIHaveVerified;
+
+  /// No description provided for @verifyResend.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend verification email'**
+  String get verifyResend;
+
+  /// No description provided for @verifySignOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get verifySignOut;
+
+  /// No description provided for @verifyStillUnverified.
+  ///
+  /// In en, this message translates to:
+  /// **'Email not verified yet. Open the link we sent, then try again.'**
+  String get verifyStillUnverified;
+
+  /// No description provided for @authErrorInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address.'**
+  String get authErrorInvalidEmail;
+
+  /// No description provided for @authErrorUserNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No account found for this email.'**
+  String get authErrorUserNotFound;
+
+  /// No description provided for @authErrorWrongPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect email or password.'**
+  String get authErrorWrongPassword;
+
+  /// No description provided for @authErrorEmailAlreadyInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'An account with this email already exists.'**
+  String get authErrorEmailAlreadyInUse;
+
+  /// No description provided for @authErrorWeakPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password is too weak. Use at least 6 characters.'**
+  String get authErrorWeakPassword;
+
+  /// No description provided for @authErrorUserDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'This account has been disabled.'**
+  String get authErrorUserDisabled;
+
+  /// No description provided for @authErrorTooManyRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Please try again later.'**
+  String get authErrorTooManyRequests;
+
+  /// No description provided for @authErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'Network error. Check your connection and retry.'**
+  String get authErrorNetwork;
+
+  /// No description provided for @authErrorInvalidCredential.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid credentials. Please try again.'**
+  String get authErrorInvalidCredential;
+
+  /// No description provided for @authErrorAccountExistsDifferent.
+  ///
+  /// In en, this message translates to:
+  /// **'An account already exists with a different sign-in method.'**
+  String get authErrorAccountExistsDifferent;
+
+  /// No description provided for @authErrorOperationNotAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-in is not enabled yet.'**
+  String get authErrorOperationNotAllowed;
+
+  /// No description provided for @authErrorGoogleCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Google sign-in was cancelled.'**
+  String get authErrorGoogleCancelled;
+
+  /// No description provided for @authErrorGoogleFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Google sign-in failed. Please try again.'**
+  String get authErrorGoogleFailed;
+
+  /// No description provided for @authErrorUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get authErrorUnknown;
+
+  /// No description provided for @authErrorPasswordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Password is required.'**
+  String get authErrorPasswordRequired;
+
+  /// No description provided for @authErrorPasswordTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters.'**
+  String get authErrorPasswordTooShort;
+
+  /// No description provided for @authErrorPasswordMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match.'**
+  String get authErrorPasswordMismatch;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

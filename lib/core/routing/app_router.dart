@@ -2,6 +2,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/auth/presentation/auth_providers.dart';
+import '../../features/auth/presentation/screens/email_verification_screen.dart';
+import '../../features/auth/presentation/screens/forgot_password_screen.dart';
+import '../../features/auth/presentation/screens/login_screen.dart';
+import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/info/presentation/info_screen.dart';
 import '../../features/library/presentation/library_screen.dart';
@@ -33,6 +37,26 @@ GoRouter buildAppRouter(Ref ref) {
         path: RoutePaths.welcome,
         name: 'welcome',
         builder: (context, state) => const WelcomeScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.login,
+        name: 'login',
+        builder: (context, state) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.register,
+        name: 'register',
+        builder: (context, state) => const RegisterScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.forgotPassword,
+        name: 'forgotPassword',
+        builder: (context, state) => const ForgotPasswordScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.emailVerification,
+        name: 'emailVerification',
+        builder: (context, state) => const EmailVerificationScreen(),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
@@ -105,16 +129,36 @@ GoRouter buildAppRouter(Ref ref) {
     ],
     redirect: (context, state) {
       final auth = ref.read(authStateProvider);
-      if (auth.isUnknown) return null;
+      if (auth.isUnknown || auth.isError) return null;
 
       final location = state.matchedLocation;
 
       if (auth.isAuthenticated) {
-        if (location == RoutePaths.welcome) return RoutePaths.home;
+        if (RoutePaths.authEntryRoutes.contains(location)) {
+          return RoutePaths.home;
+        }
         return null;
       }
 
-      // Unauthenticated users are kept out of private pages.
+      if (auth.requiresEmailVerification) {
+        if (location == RoutePaths.splash ||
+            location == RoutePaths.emailVerification) {
+          return null;
+        }
+        // Unverified users may only use public pre-auth routes + verify step.
+        if (location == RoutePaths.login ||
+            location == RoutePaths.register ||
+            location == RoutePaths.welcome) {
+          return RoutePaths.emailVerification;
+        }
+        if (!RoutePaths.isPublic(location)) {
+          return RoutePaths.emailVerification;
+        }
+        return null;
+      }
+
+      // Unauthenticated: keep out of private pages (including verify).
+      if (RoutePaths.isVerification(location)) return RoutePaths.welcome;
       if (!RoutePaths.isPublic(location)) return RoutePaths.welcome;
       return null;
     },

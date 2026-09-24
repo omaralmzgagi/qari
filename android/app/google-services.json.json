@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "652241787173",
+    "project_id": "qari-4e344",
+    "storage_bucket": "qari-4e344.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:652241787173:android:6641ee92f48888895e62cc",
+        "android_client_info": {
+          "package_name": "com.example.qari"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "652241787173-iurii0snm4k14f1avlhq3n7bqed7490h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.qari",
+            "certificate_hash": "ced408136239fadabe77b92588c1bee4834defed"
+          }
+        },
+        {
+          "client_id": "652241787173-f9e4hna3tkgoih3rhukajmq0kciecrrj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6gjOM97N5UXpmW7dVkVAgD1K6rdqgcGs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "652241787173-f9e4hna3tkgoih3rhukajmq0kciecrrj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "652241787173-f5pbnm17q0a1s6mlugq7ebppjpappbs4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.qari"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

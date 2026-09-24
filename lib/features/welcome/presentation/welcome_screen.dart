@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../../core/config/app_config.dart';
 import '../../../core/config/branding/brand_assets.dart';
 import '../../../core/config/branding/brand_info.dart';
+import '../../../core/routing/app_routes.dart';
 import '../../../localization/app_localization_ext.dart';
 import '../../../theme/tokens/app_colors.dart';
 import '../../../theme/tokens/app_component_sizes.dart';
 import '../../../theme/tokens/app_radius.dart';
 import '../../../theme/tokens/app_spacing.dart';
 import '../../../theme/tokens/app_typography.dart';
+import '../../auth/domain/entities/auth_result.dart';
+import '../../auth/domain/entities/auth_user.dart';
+import '../../auth/presentation/auth_providers.dart';
+import '../../auth/presentation/widgets/auth_messages.dart';
 import '../../../widgets/branding/brand_mark.dart';
 import '../../../widgets/common/qari_constrained.dart';
 
@@ -139,12 +144,50 @@ class _StackedWelcomeLayout extends ConsumerWidget {
   }
 }
 
-class _WelcomeCard extends ConsumerWidget {
+class _WelcomeCard extends ConsumerStatefulWidget {
   const _WelcomeCard();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_WelcomeCard> createState() => _WelcomeCardState();
+}
+
+class _WelcomeCardState extends ConsumerState<_WelcomeCard> {
+  bool _busy = false;
+
+  Future<void> _continueWithGoogle() async {
+    setState(() => _busy = true);
+    final result = await ref.read(authStateProvider.notifier).signInWithGoogle();
+    if (!mounted) return;
+    setState(() => _busy = false);
+    if (result is AuthFailureResult<AuthUser>) {
+      if (result.failure.isCancelled) return;
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(content: Text(authFailureMessage(context, result.failure))),
+        );
+      return;
+    }
+    final auth = ref.read(authStateProvider);
+    if (auth.requiresEmailVerification) {
+      context.go(RoutePaths.emailVerification);
+    } else if (auth.isAuthenticated) {
+      context.go(RoutePaths.home);
+    }
+  }
+
+  void _showPlaceholder() {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(content: Text(context.l10n.authPhasePlaceholder)),
+      );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final authEnabled = ref.watch(authEnabledProvider);
     return Container(
       padding: const EdgeInsets.all(AppSpacing.xl),
       decoration: BoxDecoration(
@@ -177,21 +220,38 @@ class _WelcomeCard extends ConsumerWidget {
           _FeatureGrid(),
           const SizedBox(height: AppSpacing.xl),
           FilledButton.icon(
-            onPressed: AppConfig.authEnabled
-                ? null // Wired up in PHASE 03.
-                : () {
-                    ScaffoldMessenger.of(context)
-                      ..hideCurrentSnackBar()
-                      ..showSnackBar(
-                        SnackBar(content: Text(l10n.authPhasePlaceholder)),
-                      );
-                  },
+            key: const Key('welcome-google-button'),
+            onPressed: _busy
+                ? null
+                : authEnabled
+                    ? _continueWithGoogle
+                    : _showPlaceholder,
             style: FilledButton.styleFrom(
               minimumSize: const Size.fromHeight(AppComponentSizes.buttonHeight),
             ),
             icon: const Icon(Icons.g_mobiledata_rounded),
             label: Text(l10n.continueWithGoogle),
           ),
+          if (authEnabled) ...[
+            const SizedBox(height: AppSpacing.md),
+            OutlinedButton(
+              key: const Key('welcome-email-button'),
+              onPressed: () => context.push(RoutePaths.login),
+              style: OutlinedButton.styleFrom(
+                minimumSize:
+                    const Size.fromHeight(AppComponentSizes.buttonHeight),
+              ),
+              child: Text(l10n.loginTitle),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            Center(
+              child: TextButton(
+                key: const Key('welcome-register-button'),
+                onPressed: () => context.push(RoutePaths.register),
+                child: Text(l10n.registerTitle),
+              ),
+            ),
+          ],
           const SizedBox(height: AppSpacing.md),
           Text(
             l10n.welcomeLegalHint,
