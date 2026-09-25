@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+import 'auth_user.dart';
 import 'user_role.dart';
 
 /// An authenticated user of QARI | قارئ.
@@ -11,6 +12,7 @@ class AppUser {
     this.name,
     this.photoUrl,
     this.role = UserRole.user,
+    this.provider = AuthProviderKind.unknown,
   });
 
   final String id;
@@ -18,6 +20,10 @@ class AppUser {
   final String? name;
   final String? photoUrl;
   final UserRole role;
+
+  /// Authentication provider that created this session (persists across
+  /// restarts so the UI can tell a Google session from an unknown one).
+  final AuthProviderKind provider;
 
   bool get isRoot => role == UserRole.root;
 
@@ -27,6 +33,7 @@ class AppUser {
     String? name,
     String? photoUrl,
     UserRole? role,
+    AuthProviderKind? provider,
   }) {
     return AppUser(
       id: id ?? this.id,
@@ -34,6 +41,7 @@ class AppUser {
       name: name ?? this.name,
       photoUrl: photoUrl ?? this.photoUrl,
       role: role ?? this.role,
+      provider: provider ?? this.provider,
     );
   }
 
@@ -43,6 +51,7 @@ class AppUser {
         'name': name,
         'photoUrl': photoUrl,
         'role': role.name,
+        'provider': provider.name,
       };
 
   factory AppUser.fromJson(Map<String, dynamic> json) {
@@ -52,6 +61,8 @@ class AppUser {
       name: json['name'] as String?,
       photoUrl: json['photoUrl'] as String?,
       role: UserRole.fromName(json['role'] as String?),
+      provider: AuthProviderKind.values.asNameMap()[json['provider'] as String?] ??
+          AuthProviderKind.unknown,
     );
   }
 

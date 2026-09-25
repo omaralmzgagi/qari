@@ -12,7 +12,6 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  cupertino_icons: ^1.0.8
 
   # State Management
   flutter_riverpod: ^2.6.1
@@ -22,7 +21,6 @@ dependencies:
 
   # Local Database (Offline-First)
   hive: ^2.2.3
-  hive_flutter: ^1.1.0
 
   # Storage & Settings
   path_provider: ^2.1.5

@@ -10,11 +10,14 @@ abstract final class AppConfig {
 
   static const Duration splashDelay = Duration(milliseconds: 1800);
 
+  /// How long the Google sign-in transition screen stays up.
+  static const Duration authLoadingDuration = Duration(seconds: 3);
+
   static const AppLocale defaultLocale = AppLocale.arabic;
 
   static const AppThemeMode defaultThemeMode = AppThemeMode.system;
 
-  /// Whether to show real login UI (PHASE 03+) or the placeholder button.
+  /// Whether real Google Sign-In is active (`false` disables the button).
   static const bool authEnabled = true;
 
   /// Whether Firebase has been configured in this build.

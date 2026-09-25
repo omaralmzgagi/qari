@@ -70,11 +70,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       // Stay on splash; caller may retry via AuthController.retry().
       return;
     }
-    if (auth.requiresEmailVerification) {
-      router.go(RoutePaths.emailVerification);
-      return;
-    }
-    router.go(auth.isAuthenticated ? RoutePaths.home : RoutePaths.welcome);
+    // Authenticated sessions always pass through the transition screen so
+    // the loading bar is shown before the shell opens.
+    router.go(
+      auth.isAuthenticated ? RoutePaths.authLoading : RoutePaths.welcome,
+    );
   }
 
   @override

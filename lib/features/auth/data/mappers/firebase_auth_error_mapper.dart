@@ -29,18 +29,10 @@ abstract final class FirebaseAuthErrorMapper {
 
   static AuthFailureCode _mapCode(String code) {
     switch (code) {
-      case 'invalid-email':
-        return AuthFailureCode.invalidEmail;
-      case 'user-not-found':
-        return AuthFailureCode.userNotFound;
-      case 'wrong-password':
       case 'invalid-credential':
       case 'user-mismatch':
-        return AuthFailureCode.wrongPassword;
-      case 'email-already-in-use':
-        return AuthFailureCode.emailAlreadyInUse;
-      case 'weak-password':
-        return AuthFailureCode.weakPassword;
+      case 'invalid-email':
+        return AuthFailureCode.invalidCredential;
       case 'user-disabled':
         return AuthFailureCode.userDisabled;
       case 'too-many-requests':

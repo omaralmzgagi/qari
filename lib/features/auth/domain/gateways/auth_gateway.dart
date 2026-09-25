@@ -7,6 +7,8 @@ import '../entities/auth_user.dart';
 ///
 /// The domain layer depends only on this interface — never on Firebase.
 /// Production uses `FirebaseAuthGateway`; tests use `FakeAuthGateway`.
+///
+/// Google Sign-In is the only supported way to establish a session.
 abstract interface class AuthGateway {
   /// Stream of authentication-state changes (`null` = signed out).
   ///
@@ -16,30 +18,8 @@ abstract interface class AuthGateway {
   /// The currently signed-in user, or `null`.
   AuthUser? get currentUser;
 
-  /// Signs in an existing user with email + password.
-  Future<AuthResult<AuthUser>> signInWithEmail({
-    required String email,
-    required String password,
-  });
-
-  /// Creates a new account and signs the user in.
-  Future<AuthResult<AuthUser>> registerWithEmail({
-    required String email,
-    required String password,
-    String? displayName,
-  });
-
-  /// Signs the current user out (email session + Google session).
+  /// Signs the current user out (Google session + Firebase session).
   Future<AuthResult<void>> signOut();
-
-  /// Sends a password-reset email to [email].
-  Future<AuthResult<void>> sendPasswordResetEmail({required String email});
-
-  /// Sends an email-verification link to the current user.
-  Future<AuthResult<void>> sendEmailVerification();
-
-  /// Reloads the current user (refreshes `emailVerified`).
-  Future<AuthResult<AuthUser>> reloadUser();
 
   /// Real Google Sign-In (OAuth → Firebase credential).
   Future<AuthResult<AuthUser>> signInWithGoogle();

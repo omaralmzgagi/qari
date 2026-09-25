@@ -40,16 +40,17 @@ void main() {
       expect(AuthState.unauthenticated().isAuthenticated, isFalse);
     });
 
-    test('authenticated and emailVerificationRequired factories', () {
-      const user = AppUser(id: '1', email: 'a@b.com');
+    test('authenticated factory carries the user', () {
+      const user = AppUser(
+        id: '1',
+        email: 'a@b.com',
+        provider: AuthProviderKind.google,
+      );
       final auth = AuthState.authenticated(user);
       expect(auth.isAuthenticated, isTrue);
-      expect(auth.requiresEmailVerification, isFalse);
-
-      final verify = AuthState.emailVerificationRequired(user);
-      expect(verify.requiresEmailVerification, isTrue);
-      expect(verify.isAuthenticated, isFalse);
-      expect(verify.hasUser, isTrue);
+      expect(auth.hasUser, isTrue);
+      expect(auth.user?.provider, AuthProviderKind.google);
+      expect(auth.isError, isFalse);
     });
 
     test('error factory carries failure', () {
@@ -57,6 +58,25 @@ void main() {
       final state = AuthState.error(failure);
       expect(state.isError, isTrue);
       expect(state.failure?.code, AuthFailureCode.networkRequestFailed);
+    });
+  });
+
+  group('AppUser provider persistence', () {
+    test('json round-trip keeps google provider', () {
+      const user = AppUser(
+        id: 'u1',
+        email: 'a@b.com',
+        provider: AuthProviderKind.google,
+      );
+      final restored = AppUser.fromJson(user.toJson());
+      expect(restored.provider, AuthProviderKind.google);
+      expect(restored.id, user.id);
+      expect(restored.email, user.email);
+    });
+
+    test('missing provider key defaults to unknown', () {
+      final restored = AppUser.fromJson(const {'id': 'u1', 'email': 'a@b.com'});
+      expect(restored.provider, AuthProviderKind.unknown);
     });
   });
 
@@ -70,7 +90,8 @@ void main() {
       );
     });
 
-    test('restoreSession with seeded verified user → authenticated', () async {
+    test('restoreSession with google user → authenticated + provider kept',
+        () async {
       const user = AuthUser(
         uid: 'u1',
         email: 'a@b.com',
@@ -84,71 +105,18 @@ void main() {
       final state = container.read(authStateProvider);
       expect(state.isAuthenticated, isTrue);
       expect(state.user?.email, 'a@b.com');
+      expect(state.user?.provider, AuthProviderKind.google);
     });
 
-    test('restoreSession with unverified user → emailVerificationRequired',
+    test('signInWithGoogle success → authenticated with google provider',
         () async {
-      const user = AuthUser(
-        uid: 'u1',
-        email: 'a@b.com',
-        emailVerified: false,
-      );
-      final container = buildContainer(
-        gateway: FakeAuthGateway(initialUser: user),
-      );
-      await container.read(authStateProvider.notifier).restoreSession();
-      expect(
-        container.read(authStateProvider).requiresEmailVerification,
-        isTrue,
-      );
-    });
-
-    test('registerWithEmail unverified → emailVerificationRequired', () async {
-      final container = buildContainer();
-      final result = await container.read(authStateProvider.notifier)
-          .registerWithEmail(email: 'a@b.com', password: 'secret1');
-      expect(result, isA<AuthSuccess<AuthUser>>());
-      expect(
-        container.read(authStateProvider).requiresEmailVerification,
-        isTrue,
-      );
-    });
-
-    test('registerWithEmail with autoVerify → authenticated', () async {
-      final container = buildContainer(
-        gateway: FakeAuthGateway(autoVerifyEmails: true),
-      );
-      await container.read(authStateProvider.notifier).registerWithEmail(
-            email: 'a@b.com',
-            password: 'secret1',
-          );
-      expect(container.read(authStateProvider).isAuthenticated, isTrue);
-    });
-
-    test('signInWithEmail wrong password returns failure', () async {
-      final container = buildContainer();
-      final notifier = container.read(authStateProvider.notifier);
-      await notifier.registerWithEmail(email: 'a@b.com', password: 'secret1');
-      await notifier.signOut();
-
-      final result = await notifier.signInWithEmail(
-        email: 'a@b.com',
-        password: 'wrong99',
-      );
-      expect(result, isA<AuthFailureResult<AuthUser>>());
-      expect(
-        (result as AuthFailureResult<AuthUser>).failure.code,
-        AuthFailureCode.wrongPassword,
-      );
-      expect(container.read(authStateProvider).isUnauthenticated, isTrue);
-    });
-
-    test('signInWithGoogle success → authenticated', () async {
       final container = buildContainer();
       final result =
           await container.read(authStateProvider.notifier).signInWithGoogle();
       expect(result, isA<AuthSuccess<AuthUser>>());
-      expect(container.read(authStateProvider).isAuthenticated, isTrue);
+      final state = container.read(authStateProvider);
+      expect(state.isAuthenticated, isTrue);
+      expect(state.user?.provider, AuthProviderKind.google);
     });
 
     test('signInWithGoogle cancelled keeps unauthenticated', () async {
@@ -164,63 +132,26 @@ void main() {
     });
 
     test('signOut clears session', () async {
-      final container = buildContainer(
-        gateway: FakeAuthGateway(autoVerifyEmails: true),
-      );
+      final container = buildContainer();
       final notifier = container.read(authStateProvider.notifier);
-      await notifier.registerWithEmail(email: 'a@b.com', password: 'secret1');
+      await notifier.signInWithGoogle();
       expect(container.read(authStateProvider).isAuthenticated, isTrue);
 
       await notifier.signOut();
       expect(container.read(authStateProvider).isUnauthenticated, isTrue);
     });
 
-    test('sendPasswordResetEmail success for registered user', () async {
-      final container = buildContainer();
-      final notifier = container.read(authStateProvider.notifier);
-      await notifier.registerWithEmail(email: 'a@b.com', password: 'secret1');
-      await notifier.signOut();
-
-      final result =
-          await notifier.sendPasswordResetEmail(email: 'a@b.com');
-      expect(result, isA<AuthSuccess<void>>());
-    });
-
-    test('sendPasswordResetEmail failure for unknown user', () async {
-      final container = buildContainer();
+    test('auth disabled → google sign-in returns operationNotAllowed',
+        () async {
+      final container = buildContainer(authEnabled: false);
       final result = await container
           .read(authStateProvider.notifier)
-          .sendPasswordResetEmail(email: 'x@y.com');
-      expect((result as AuthFailureResult).failure.code,
-          AuthFailureCode.userNotFound);
-    });
-
-    test('sendEmailVerification then reload after verify → authenticated',
-        () async {
-      final gateway = FakeAuthGateway();
-      final container = buildContainer(gateway: gateway);
-      final notifier = container.read(authStateProvider.notifier);
-
-      await notifier.registerWithEmail(email: 'a@b.com', password: 'secret1');
-      expect(notifier, isNotNull);
-
-      final sent = await notifier.sendEmailVerification();
-      expect(sent, isA<AuthSuccess<void>>());
-      expect(gateway.sendVerificationCalled, isTrue);
-
-      gateway.markEmailVerified();
-      final reloaded = await notifier.reloadUser();
-      expect(reloaded, isA<AuthSuccess<AuthUser>>());
-      expect(container.read(authStateProvider).isAuthenticated, isTrue);
-    });
-
-    test('auth disabled → operations return operationNotAllowed', () async {
-      final container = buildContainer(authEnabled: false);
-      final notifier = container.read(authStateProvider.notifier);
-      final result =
-          await notifier.signInWithEmail(email: 'a@b.com', password: 'secret1');
-      expect((result as AuthFailureResult).failure.code,
-          AuthFailureCode.operationNotAllowed);
+          .signInWithGoogle();
+      expect(
+        (result as AuthFailureResult).failure.code,
+        AuthFailureCode.operationNotAllowed,
+      );
+      expect(container.read(authStateProvider).isAuthenticated, isFalse);
     });
   });
 }

@@ -18,7 +18,7 @@ import '../../auth/presentation/widgets/auth_messages.dart';
 import '../../../widgets/branding/brand_mark.dart';
 import '../../../widgets/common/qari_constrained.dart';
 
-/// Pre-login welcome screen; applies the login visual identity.
+/// Pre-login screen: the only sign-in entry point (Google only).
 class WelcomeScreen extends ConsumerWidget {
   const WelcomeScreen({super.key});
 
@@ -168,19 +168,16 @@ class _WelcomeCardState extends ConsumerState<_WelcomeCard> {
         );
       return;
     }
-    final auth = ref.read(authStateProvider);
-    if (auth.requiresEmailVerification) {
-      context.go(RoutePaths.emailVerification);
-    } else if (auth.isAuthenticated) {
-      context.go(RoutePaths.home);
+    if (ref.read(authStateProvider).isAuthenticated) {
+      context.go(RoutePaths.authLoading);
     }
   }
 
-  void _showPlaceholder() {
+  void _showDisabled() {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
-        SnackBar(content: Text(context.l10n.authPhasePlaceholder)),
+        SnackBar(content: Text(context.l10n.authErrorOperationNotAllowed)),
       );
   }
 
@@ -225,33 +222,13 @@ class _WelcomeCardState extends ConsumerState<_WelcomeCard> {
                 ? null
                 : authEnabled
                     ? _continueWithGoogle
-                    : _showPlaceholder,
+                    : _showDisabled,
             style: FilledButton.styleFrom(
               minimumSize: const Size.fromHeight(AppComponentSizes.buttonHeight),
             ),
             icon: const Icon(Icons.g_mobiledata_rounded),
-            label: Text(l10n.continueWithGoogle),
+            label: Text(l10n.signInWithGoogle),
           ),
-          if (authEnabled) ...[
-            const SizedBox(height: AppSpacing.md),
-            OutlinedButton(
-              key: const Key('welcome-email-button'),
-              onPressed: () => context.push(RoutePaths.login),
-              style: OutlinedButton.styleFrom(
-                minimumSize:
-                    const Size.fromHeight(AppComponentSizes.buttonHeight),
-              ),
-              child: Text(l10n.loginTitle),
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            Center(
-              child: TextButton(
-                key: const Key('welcome-register-button'),
-                onPressed: () => context.push(RoutePaths.register),
-                child: Text(l10n.registerTitle),
-              ),
-            ),
-          ],
           const SizedBox(height: AppSpacing.md),
           Text(
             l10n.welcomeLegalHint,

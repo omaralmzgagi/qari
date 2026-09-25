@@ -2,10 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/auth/presentation/auth_providers.dart';
-import '../../features/auth/presentation/screens/email_verification_screen.dart';
-import '../../features/auth/presentation/screens/forgot_password_screen.dart';
-import '../../features/auth/presentation/screens/login_screen.dart';
-import '../../features/auth/presentation/screens/register_screen.dart';
+import '../../features/auth/presentation/screens/auth_loading_page.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/info/presentation/info_screen.dart';
 import '../../features/library/presentation/library_screen.dart';
@@ -16,6 +13,9 @@ import '../../widgets/navigation/app_navigation_shell.dart';
 import 'app_routes.dart';
 
 /// Builds the application router with an authentication-aware redirect.
+///
+/// Flow: `splash` → (`authLoading` | `welcome`) → Google sign-in →
+/// `authLoading` → `home`.
 ///
 /// The redirect is a safety net: the Splash screen drives the initial
 /// navigation after restoring the session. Call `router.refresh()` whenever
@@ -39,24 +39,9 @@ GoRouter buildAppRouter(Ref ref) {
         builder: (context, state) => const WelcomeScreen(),
       ),
       GoRoute(
-        path: RoutePaths.login,
-        name: 'login',
-        builder: (context, state) => const LoginScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.register,
-        name: 'register',
-        builder: (context, state) => const RegisterScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.forgotPassword,
-        name: 'forgotPassword',
-        builder: (context, state) => const ForgotPasswordScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.emailVerification,
-        name: 'emailVerification',
-        builder: (context, state) => const EmailVerificationScreen(),
+        path: RoutePaths.authLoading,
+        name: 'authLoading',
+        builder: (context, state) => const AuthLoadingPage(),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
@@ -134,31 +119,14 @@ GoRouter buildAppRouter(Ref ref) {
       final location = state.matchedLocation;
 
       if (auth.isAuthenticated) {
+        // An auth entry screen is a dead end once a session exists.
         if (RoutePaths.authEntryRoutes.contains(location)) {
-          return RoutePaths.home;
+          return RoutePaths.authLoading;
         }
         return null;
       }
 
-      if (auth.requiresEmailVerification) {
-        if (location == RoutePaths.splash ||
-            location == RoutePaths.emailVerification) {
-          return null;
-        }
-        // Unverified users may only use public pre-auth routes + verify step.
-        if (location == RoutePaths.login ||
-            location == RoutePaths.register ||
-            location == RoutePaths.welcome) {
-          return RoutePaths.emailVerification;
-        }
-        if (!RoutePaths.isPublic(location)) {
-          return RoutePaths.emailVerification;
-        }
-        return null;
-      }
-
-      // Unauthenticated: keep out of private pages (including verify).
-      if (RoutePaths.isVerification(location)) return RoutePaths.welcome;
+      // Unauthenticated: only splash + the Google sign-in screen are public.
       if (!RoutePaths.isPublic(location)) return RoutePaths.welcome;
       return null;
     },

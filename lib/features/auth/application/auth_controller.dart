@@ -29,11 +29,8 @@ enum AuthStatus {
   /// No signed-in user.
   unauthenticated,
 
-  /// Signed in and email verified (or Google) — full app access.
+  /// Signed in — full app access.
   authenticated,
-
-  /// Signed in but email not yet verified.
-  emailVerificationRequired,
 
   /// A recoverable session/auth error (retry available).
   error,
@@ -58,9 +55,6 @@ class AuthState {
 
   bool get isUnauthenticated => status == AuthStatus.unauthenticated;
 
-  bool get requiresEmailVerification =>
-      status == AuthStatus.emailVerificationRequired;
-
   bool get isError => status == AuthStatus.error;
 
   bool get hasUser => user != null;
@@ -72,9 +66,6 @@ class AuthState {
 
   factory AuthState.authenticated(AppUser user) =>
       AuthState(status: AuthStatus.authenticated, user: user);
-
-  factory AuthState.emailVerificationRequired(AppUser user) =>
-      AuthState(status: AuthStatus.emailVerificationRequired, user: user);
 
   factory AuthState.error(AuthFailure failure, {AppUser? user}) =>
       AuthState(status: AuthStatus.error, failure: failure, user: user);
@@ -94,8 +85,7 @@ class AuthState {
   }
 }
 
-/// Manages the authentication session (PHASE 02 local store + PHASE 03
-/// Firebase gateway).
+/// Manages the authentication session (persisted snapshot + Google gateway).
 ///
 /// Single listener on `authStateChanges` — screens call the action methods
 /// and read [authStateProvider]; they do not open their own stream listeners.
@@ -161,32 +151,6 @@ class AuthController extends AutoDisposeNotifier<AuthState> {
         : AuthState.authenticated(user);
   }
 
-  Future<AuthResult<AuthUser>> signInWithEmail({
-    required String email,
-    required String password,
-  }) async {
-    if (!_enabled) return _disabled<AuthUser>();
-    final result = await _gateway.signInWithEmail(
-      email: email,
-      password: password,
-    );
-    return _handleUserResult(result);
-  }
-
-  Future<AuthResult<AuthUser>> registerWithEmail({
-    required String email,
-    required String password,
-    String? displayName,
-  }) async {
-    if (!_enabled) return _disabled<AuthUser>();
-    final result = await _gateway.registerWithEmail(
-      email: email,
-      password: password,
-      displayName: displayName,
-    );
-    return _handleUserResult(result);
-  }
-
   Future<AuthResult<AuthUser>> signInWithGoogle() async {
     if (!_enabled) return _disabled<AuthUser>();
     final result = await _gateway.signInWithGoogle();
@@ -203,25 +167,6 @@ class AuthController extends AutoDisposeNotifier<AuthState> {
     await _store.write(null);
     state = AuthState.unauthenticated();
     return result;
-  }
-
-  Future<AuthResult<void>> sendPasswordResetEmail({
-    required String email,
-  }) async {
-    if (!_enabled) return _disabled<void>();
-    return _gateway.sendPasswordResetEmail(email: email);
-  }
-
-  Future<AuthResult<void>> sendEmailVerification() async {
-    if (!_enabled) return _disabled<void>();
-    return _gateway.sendEmailVerification();
-  }
-
-  /// Reloads the Firebase user (after the user clicks the verification link).
-  Future<AuthResult<AuthUser>> reloadUser() async {
-    if (!_enabled) return _disabled<AuthUser>();
-    final result = await _gateway.reloadUser();
-    return _handleUserResult(result);
   }
 
   /// Clears a terminal error and re-reads the session.
@@ -245,11 +190,7 @@ class AuthController extends AutoDisposeNotifier<AuthState> {
     if (persist) {
       unawaited(_store.write(appUser));
     }
-    if (user.emailVerified) {
-      state = AuthState.authenticated(appUser);
-    } else {
-      state = AuthState.emailVerificationRequired(appUser);
-    }
+    state = AuthState.authenticated(appUser);
   }
 
   AppUser _toAppUser(AuthUser user) => AppUser(
@@ -258,5 +199,6 @@ class AuthController extends AutoDisposeNotifier<AuthState> {
         name: user.displayName,
         photoUrl: user.photoUrl,
         role: user.role,
+        provider: user.provider,
       );
 }

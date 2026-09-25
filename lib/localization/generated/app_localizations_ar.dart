@@ -40,13 +40,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get featureOffline => 'يعمل دون اتصال';
 
   @override
-  String get continueWithGoogle => 'المتابعة باستخدام Google';
+  String get signInWithGoogle => 'تسجيل الدخول باستخدام Google';
+
+  @override
+  String get signingIn => 'جارٍ تسجيل الدخول...';
 
   @override
   String get welcomeLegalHint => 'بالمتابعة فأنت توافق على الشروط وسياسة الخصوصية.';
-
-  @override
-  String get authPhasePlaceholder => 'تسجيل الدخول سيصل في المرحلة 03.';
 
   @override
   String get navHome => 'الرئيسية';
@@ -145,18 +145,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsTitle => 'الإعدادات';
 
   @override
-  String get settingsAccount => 'الحساب';
-
-  @override
-  String get settingsSignInTitle => 'تسجيل الدخول بحساب Google';
-
-  @override
-  String get settingsSignInSubtitle => 'ستكون ملفاتك جاهزة على كل جهاز تستخدمه.';
-
-  @override
-  String get settingsAccessSection => 'الوصول';
-
-  @override
   String get settingsAppearance => 'المظهر';
 
   @override
@@ -217,9 +205,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsResetTheme => 'المظهر';
 
   @override
-  String get authPhasePlaceholderSettings => 'تسجيل الدخول سيصل في مرحلة لاحقة.';
-
-  @override
   String get aboutTitle => 'حول قارئ | QARI';
 
   @override
@@ -262,99 +247,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get back => 'رجوع';
 
   @override
-  String get loginTitle => 'تسجيل الدخول';
-
-  @override
-  String get loginSubtitle => 'مرحبًا بعودتك. سجّل الدخول للمتابعة.';
-
-  @override
-  String get loginSubmit => 'دخول';
-
-  @override
-  String get registerTitle => 'إنشاء حساب';
-
-  @override
-  String get registerSubtitle => 'انضم إلى قارئ لمزامنة قراءاتك عبر أجهزتك.';
-
-  @override
-  String get registerSubmit => 'إنشاء الحساب';
-
-  @override
-  String get forgotPasswordTitle => 'إعادة تعيين كلمة المرور';
-
-  @override
-  String get forgotPasswordSubtitle => 'أدخل بريدك الإلكتروني وسنرسل رابط إعادة التعيين.';
-
-  @override
-  String get sendResetLink => 'إرسال رابط إعادة التعيين';
-
-  @override
-  String get resetEmailSent => 'تم إرسال بريد إعادة التعيين. تحقق من صندوق واردك.';
-
-  @override
-  String get backToLogin => 'العودة لتسجيل الدخول';
-
-  @override
-  String get forgotPasswordLink => 'نسيت كلمة المرور؟';
-
-  @override
-  String get noAccountCreateOne => 'ليس لديك حساب؟ أنشئ حسابًا';
-
-  @override
-  String get haveAccountSignIn => 'لديك حساب بالفعل؟ سجّل الدخول';
-
-  @override
-  String get authEmailLabel => 'البريد الإلكتروني';
-
-  @override
-  String get authPasswordLabel => 'كلمة المرور';
-
-  @override
-  String get authConfirmPasswordLabel => 'تأكيد كلمة المرور';
-
-  @override
-  String get authNameLabel => 'الاسم (اختياري)';
-
-  @override
-  String get authPasswordHint => '6 أحرف على الأقل';
-
-  @override
-  String get verifyTitle => 'تحقق من بريدك';
-
-  @override
-  String get verifySubtitle => 'أرسلنا رابط تحقق إلى بريدك الإلكتروني.';
-
-  @override
-  String get verifyEmailSent => 'تم إعادة إرسال بريد التحقق.';
-
-  @override
-  String get verifyIHaveVerified => 'لقد تحققت — متابعة';
-
-  @override
-  String get verifyResend => 'إعادة إرسال بريد التحقق';
-
-  @override
-  String get verifySignOut => 'تسجيل الخروج';
-
-  @override
-  String get verifyStillUnverified => 'لم يتم التحقق من البريد بعد. افتح الرابط المرسل ثم أعد المحاولة.';
-
-  @override
-  String get authErrorInvalidEmail => 'يرجى إدخال بريد إلكتروني صحيح.';
-
-  @override
-  String get authErrorUserNotFound => 'لا يوجد حساب بهذا البريد.';
-
-  @override
-  String get authErrorWrongPassword => 'البريد أو كلمة المرور غير صحيحة.';
-
-  @override
-  String get authErrorEmailAlreadyInUse => 'يوجد حساب بهذا البريد بالفعل.';
-
-  @override
-  String get authErrorWeakPassword => 'كلمة المرور ضعيفة. استخدم 6 أحرف على الأقل.';
-
-  @override
   String get authErrorUserDisabled => 'تم تعطيل هذا الحساب.';
 
   @override
@@ -380,13 +272,4 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get authErrorUnknown => 'حدث خطأ ما. حاول مجددًا.';
-
-  @override
-  String get authErrorPasswordRequired => 'كلمة المرور مطلوبة.';
-
-  @override
-  String get authErrorPasswordTooShort => 'يجب أن تكون كلمة المرور 6 أحرف على الأقل.';
-
-  @override
-  String get authErrorPasswordMismatch => 'كلمتا المرور غير متطابقتين.';
 }

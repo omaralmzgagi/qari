@@ -28,57 +28,6 @@ class FirebaseAuthGateway implements AuthGateway {
   AuthUser? get currentUser => _mapUser(_auth.currentUser);
 
   @override
-  Future<AuthResult<AuthUser>> signInWithEmail({
-    required String email,
-    required String password,
-  }) async {
-    try {
-      final credential = await _auth.signInWithEmailAndPassword(
-        email: email.trim(),
-        password: password,
-      );
-      return AuthSuccess(_requireUser(credential.user));
-    } on fb.FirebaseAuthException catch (e) {
-      return AuthFailureResult(FirebaseAuthErrorMapper.fromFirebaseException(e));
-    } catch (e) {
-      return AuthFailureResult(
-        AuthFailure(code: AuthFailureCode.unknown, cause: e),
-      );
-    }
-  }
-
-  @override
-  Future<AuthResult<AuthUser>> registerWithEmail({
-    required String email,
-    required String password,
-    String? displayName,
-  }) async {
-    try {
-      final credential = await _auth.createUserWithEmailAndPassword(
-        email: email.trim(),
-        password: password,
-      );
-      final user = credential.user;
-      if (user == null) {
-        return const AuthFailureResult(
-          AuthFailure(code: AuthFailureCode.unknown),
-        );
-      }
-      if (displayName != null && displayName.trim().isNotEmpty) {
-        await user.updateDisplayName(displayName.trim());
-        await user.reload();
-      }
-      return AuthSuccess(_requireUser(_auth.currentUser ?? user));
-    } on fb.FirebaseAuthException catch (e) {
-      return AuthFailureResult(FirebaseAuthErrorMapper.fromFirebaseException(e));
-    } catch (e) {
-      return AuthFailureResult(
-        AuthFailure(code: AuthFailureCode.unknown, cause: e),
-      );
-    }
-  }
-
-  @override
   Future<AuthResult<void>> signOut() async {
     try {
       // Best-effort Google session clear; ignore failures (may not be signed in).
@@ -87,60 +36,6 @@ class FirebaseAuthGateway implements AuthGateway {
       } catch (_) {}
       await _auth.signOut();
       return const AuthSuccess<void>(null);
-    } catch (e) {
-      return AuthFailureResult(
-        AuthFailure(code: AuthFailureCode.unknown, cause: e),
-      );
-    }
-  }
-
-  @override
-  Future<AuthResult<void>> sendPasswordResetEmail({required String email}) async {
-    try {
-      await _auth.sendPasswordResetEmail(email: email.trim());
-      return const AuthSuccess<void>(null);
-    } on fb.FirebaseAuthException catch (e) {
-      return AuthFailureResult(FirebaseAuthErrorMapper.fromFirebaseException(e));
-    } catch (e) {
-      return AuthFailureResult(
-        AuthFailure(code: AuthFailureCode.unknown, cause: e),
-      );
-    }
-  }
-
-  @override
-  Future<AuthResult<void>> sendEmailVerification() async {
-    final user = _auth.currentUser;
-    if (user == null) {
-      return const AuthFailureResult(
-        AuthFailure(code: AuthFailureCode.userNotFound),
-      );
-    }
-    try {
-      await user.sendEmailVerification();
-      return const AuthSuccess<void>(null);
-    } on fb.FirebaseAuthException catch (e) {
-      return AuthFailureResult(FirebaseAuthErrorMapper.fromFirebaseException(e));
-    } catch (e) {
-      return AuthFailureResult(
-        AuthFailure(code: AuthFailureCode.unknown, cause: e),
-      );
-    }
-  }
-
-  @override
-  Future<AuthResult<AuthUser>> reloadUser() async {
-    final user = _auth.currentUser;
-    if (user == null) {
-      return const AuthFailureResult(
-        AuthFailure(code: AuthFailureCode.userNotFound),
-      );
-    }
-    try {
-      await user.reload();
-      return AuthSuccess(_requireUser(_auth.currentUser));
-    } on fb.FirebaseAuthException catch (e) {
-      return AuthFailureResult(FirebaseAuthErrorMapper.fromFirebaseException(e));
     } catch (e) {
       return AuthFailureResult(
         AuthFailure(code: AuthFailureCode.unknown, cause: e),
@@ -176,11 +71,9 @@ class FirebaseAuthGateway implements AuthGateway {
   AuthUser? _mapUser(fb.User? user) {
     if (user == null) return null;
     final providers = user.providerData.map((p) => p.providerId).toSet();
-    final kind = providers.contains('password')
-        ? AuthProviderKind.password
-        : providers.contains('google.com')
-            ? AuthProviderKind.google
-            : AuthProviderKind.unknown;
+    final kind = providers.contains('google.com')
+        ? AuthProviderKind.google
+        : AuthProviderKind.unknown;
     return AuthUser(
       uid: user.uid,
       email: user.email ?? '',

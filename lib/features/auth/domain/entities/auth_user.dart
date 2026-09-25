@@ -3,9 +3,12 @@ import 'package:flutter/foundation.dart';
 import '../gateways/../entities/user_role.dart';
 
 /// Authentication provider that signed a user in.
-enum AuthProviderKind { password, google, unknown }
+///
+/// Google is the only supported sign-in method; [unknown] covers sessions
+/// restored from a session snapshot without provider metadata.
+enum AuthProviderKind { google, unknown }
 
-/// Normalized, Firebase-free user model for PHASE 03.
+/// Normalized, Firebase-free user model.
 ///
 /// The domain and UI layers depend only on this type — never on
 /// `FirebaseAuth.User`. Convert at the gateway boundary.

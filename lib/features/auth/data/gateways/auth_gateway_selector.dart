@@ -21,32 +21,7 @@ class DisabledAuthGateway implements AuthGateway {
   AuthUser? get currentUser => null;
 
   @override
-  Future<AuthResult<AuthUser>> signInWithEmail({
-    required String email,
-    required String password,
-  }) async =>
-      _disabled<AuthUser>();
-
-  @override
-  Future<AuthResult<AuthUser>> registerWithEmail({
-    required String email,
-    required String password,
-    String? displayName,
-  }) async =>
-      _disabled<AuthUser>();
-
-  @override
   Future<AuthResult<void>> signOut() async => const AuthSuccess<void>(null);
-
-  @override
-  Future<AuthResult<void>> sendPasswordResetEmail({required String email}) async =>
-      _disabled<void>();
-
-  @override
-  Future<AuthResult<void>> sendEmailVerification() async => _disabled<void>();
-
-  @override
-  Future<AuthResult<AuthUser>> reloadUser() async => _disabled<AuthUser>();
 
   @override
   Future<AuthResult<AuthUser>> signInWithGoogle() async => _disabled<AuthUser>();

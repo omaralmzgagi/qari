@@ -1,13 +1,12 @@
 /// Route path constants for QARI | قارئ.
 abstract final class RoutePaths {
   static const String splash = '/splash';
+
+  /// Pre-auth entry: Google-only sign-in screen.
   static const String welcome = '/welcome';
 
-  /// PHASE 03 auth routes (public pre-login + gated verify step).
-  static const String login = '/auth/login';
-  static const String register = '/auth/register';
-  static const String forgotPassword = '/auth/forgot-password';
-  static const String emailVerification = '/auth/verify-email';
+  /// One-shot animated loading shown right after a session becomes available.
+  static const String authLoading = '/auth/loading';
 
   /// Root shell (StatefulShellRoute) branches.
   static const String home = '/home';
@@ -22,30 +21,11 @@ abstract final class RoutePaths {
   static const String aboutUs = '/settings/about-us';
 
   /// Routes reachable before a user is authenticated.
-  static const Set<String> publicRoutes = {
-    splash,
-    welcome,
-    login,
-    register,
-    forgotPassword,
-  };
-
-  /// Routes only reachable while signed-in but email-unverified.
-  static const Set<String> verificationRoutes = {emailVerification};
+  static const Set<String> publicRoutes = {splash, welcome};
 
   /// Whether [location] is a public (pre-auth) route.
   static bool isPublic(String location) => publicRoutes.contains(location);
 
-  /// Whether [location] requires an unverified signed-in session.
-  static bool isVerification(String location) =>
-      verificationRoutes.contains(location);
-
-  /// Auth entry points that a verified user should not stay on.
-  static const Set<String> authEntryRoutes = {
-    welcome,
-    login,
-    register,
-    forgotPassword,
-    emailVerification,
-  };
+  /// Auth entry points that an authenticated user should not stay on.
+  static const Set<String> authEntryRoutes = {welcome};
 }

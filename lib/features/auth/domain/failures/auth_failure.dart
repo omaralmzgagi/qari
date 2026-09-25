@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 /// Categorized, user-presentable authentication failures.
 ///
 /// Every [code] maps to a localized message (see `authError*` keys in
-/// `app_{en,ar}.arb` and `auth_error_messages.dart`) so the UI never shows
+/// `app_{en,ar}.arb` and `auth_messages.dart`) so the UI never shows
 /// raw Firebase internals.
 @immutable
 class AuthFailure {
@@ -12,8 +12,6 @@ class AuthFailure {
   final AuthFailureCode code;
   final Object? cause;
 
-  bool get isNetwork => code == AuthFailureCode.networkRequestFailed;
-  bool get isUserNotFound => code == AuthFailureCode.userNotFound;
   bool get isCancelled => code == AuthFailureCode.googleSignInCancelled;
 
   @override
@@ -28,12 +26,10 @@ class AuthFailure {
 }
 
 /// The exhaustive set of failure kinds QARI can surface.
+///
+/// Google Sign-In is the only session entry point, so no e-mail/password
+/// failure kinds exist.
 enum AuthFailureCode {
-  invalidEmail,
-  userNotFound,
-  wrongPassword,
-  emailAlreadyInUse,
-  weakPassword,
   userDisabled,
   tooManyRequests,
   networkRequestFailed,
