@@ -35,6 +35,11 @@ dependencies:
   # Firebase Authentication (PHASE 03)
   firebase_auth: ^5.3.4
   google_sign_in: ^6.2.2
+  file_picker: ^11.0.3
+  archive: ^4.3.0
+  xml: ^6.5.0
+  syncfusion_flutter_pdf: ^29.1.38
+  google_mlkit_text_recognition: ^0.15.0
 
 dev_dependencies:
   flutter_test:

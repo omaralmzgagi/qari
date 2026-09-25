@@ -45,12 +45,12 @@ class WelcomeScreen extends ConsumerWidget {
           SafeArea(
             child: LayoutBuilder(
               builder: (context, constraints) {
-                final isWide = constraints.maxWidth >= QariBreakpoints.twoColumns;
+                final isWide =
+                    constraints.maxWidth >= QariBreakpoints.twoColumns;
                 return Padding(
                   padding: const EdgeInsets.all(AppSpacing.page),
-                  child: isWide
-                      ? _WideWelcomeLayout()
-                      : _StackedWelcomeLayout(),
+                  child:
+                      isWide ? _WideWelcomeLayout() : _StackedWelcomeLayout(),
                 );
               },
             ),
@@ -156,7 +156,8 @@ class _WelcomeCardState extends ConsumerState<_WelcomeCard> {
 
   Future<void> _continueWithGoogle() async {
     setState(() => _busy = true);
-    final result = await ref.read(authStateProvider.notifier).signInWithGoogle();
+    final result =
+        await ref.read(authStateProvider.notifier).signInWithGoogle();
     if (!mounted) return;
     setState(() => _busy = false);
     if (result is AuthFailureResult<AuthUser>) {
@@ -224,7 +225,8 @@ class _WelcomeCardState extends ConsumerState<_WelcomeCard> {
                     ? _continueWithGoogle
                     : _showDisabled,
             style: FilledButton.styleFrom(
-              minimumSize: const Size.fromHeight(AppComponentSizes.buttonHeight),
+              minimumSize:
+                  const Size.fromHeight(AppComponentSizes.buttonHeight),
             ),
             icon: const Icon(Icons.g_mobiledata_rounded),
             label: Text(l10n.signInWithGoogle),

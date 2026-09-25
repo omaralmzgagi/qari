@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../core/routing/app_routes.dart';
 import '../../../localization/app_localization_ext.dart';
 import '../../../theme/tokens/app_spacing.dart';
 import '../../../theme/tokens/app_typography.dart';
@@ -51,15 +53,7 @@ class LibraryScreen extends ConsumerWidget {
               title: l10n.libraryEmptyTitle,
               message: l10n.libraryEmptySubtitle,
               actionLabel: l10n.libraryImportFile,
-              onAction: () {
-                ScaffoldMessenger.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(
-                    SnackBar(
-                      content: Text(l10n.featureUnderConstruction),
-                    ),
-                  );
-              },
+              onAction: () => context.push(RoutePaths.fileImport),
             ),
           ],
         ),

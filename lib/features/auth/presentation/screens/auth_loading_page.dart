@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/app_providers.dart';
@@ -20,7 +20,8 @@ import '../../../../theme/tokens/app_typography.dart';
 /// home route with `go()` — which replaces the stack, so the Android back
 /// button cannot return here.
 class AuthLoadingPage extends ConsumerStatefulWidget {
-  const AuthLoadingPage({super.key, this.duration = AppConfig.authLoadingDuration});
+  const AuthLoadingPage(
+      {super.key, this.duration = AppConfig.authLoadingDuration});
 
   final Duration duration;
 

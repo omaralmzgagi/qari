@@ -24,5 +24,6 @@ class DisabledAuthGateway implements AuthGateway {
   Future<AuthResult<void>> signOut() async => const AuthSuccess<void>(null);
 
   @override
-  Future<AuthResult<AuthUser>> signInWithGoogle() async => _disabled<AuthUser>();
+  Future<AuthResult<AuthUser>> signInWithGoogle() async =>
+      _disabled<AuthUser>();
 }

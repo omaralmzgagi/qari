@@ -11,5 +11,6 @@ abstract final class AppElevation {
 
 /// Resolves an elevation level to its intended overlay color for a brightness.
 abstract final class AppScrim {
-  static Color overlay(ColorScheme scheme) => scheme.scrim.withValues(alpha: 0.5);
+  static Color overlay(ColorScheme scheme) =>
+      scheme.scrim.withValues(alpha: 0.5);
 }

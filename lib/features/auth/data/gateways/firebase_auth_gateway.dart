@@ -60,7 +60,8 @@ class FirebaseAuthGateway implements AuthGateway {
       final userCredential = await _auth.signInWithCredential(credential);
       return AuthSuccess(_requireUser(userCredential.user));
     } on fb.FirebaseAuthException catch (e) {
-      return AuthFailureResult(FirebaseAuthErrorMapper.fromFirebaseException(e));
+      return AuthFailureResult(
+          FirebaseAuthErrorMapper.fromFirebaseException(e));
     } catch (e) {
       return AuthFailureResult(
         FirebaseAuthErrorMapper.fromGoogleSignInError(e),

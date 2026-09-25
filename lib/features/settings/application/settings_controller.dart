@@ -16,8 +16,7 @@ class SettingsController extends AsyncNotifier<AppSettings> {
   @override
   Future<AppSettings> build() => _service.load();
 
-  AppSettings get _current =>
-      state.valueOrNull ?? AppSettings.defaults;
+  AppSettings get _current => state.valueOrNull ?? AppSettings.defaults;
 
   Future<void> setThemeMode(AppThemeMode mode) =>
       _update(_current.copyWith(themeMode: mode));

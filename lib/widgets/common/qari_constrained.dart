@@ -57,9 +57,7 @@ class QariSurfaceCard extends StatelessWidget {
       elevation: 1,
       borderRadius: BorderRadius.circular(borderRadius),
       clipBehavior: Clip.antiAlias,
-      child: onTap != null
-          ? InkWell(onTap: onTap, child: content)
-          : content,
+      child: onTap != null ? InkWell(onTap: onTap, child: content) : content,
     );
   }
 }

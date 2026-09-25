@@ -13,6 +13,9 @@ abstract final class RoutePaths {
   static const String library = '/library';
   static const String settings = '/settings';
 
+  /// File Engine entry point pushed above the shell (PHASE 05).
+  static const String fileImport = '/import';
+
   /// Info pages pushed inside the settings branch.
   static const String about = '/settings/about';
   static const String privacy = '/settings/privacy';

@@ -42,8 +42,7 @@ class AppSettings {
   factory AppSettings.fromJson(Map<String, dynamic> json) {
     return AppSettings(
       themeMode: AppThemeMode.fromName(json['themeMode'] as String?),
-      locale:
-          AppLocale.fromLanguageCode(json['locale'] as String?),
+      locale: AppLocale.fromLanguageCode(json['locale'] as String?),
     );
   }
 

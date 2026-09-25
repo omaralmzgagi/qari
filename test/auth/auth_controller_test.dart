@@ -144,9 +144,8 @@ void main() {
     test('auth disabled → google sign-in returns operationNotAllowed',
         () async {
       final container = buildContainer(authEnabled: false);
-      final result = await container
-          .read(authStateProvider.notifier)
-          .signInWithGoogle();
+      final result =
+          await container.read(authStateProvider.notifier).signInWithGoogle();
       expect(
         (result as AuthFailureResult).failure.code,
         AuthFailureCode.operationNotAllowed,

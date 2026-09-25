@@ -98,7 +98,7 @@ class HomeScreen extends ConsumerWidget {
               title: l10n.homeNoRecentFiles,
               message: l10n.homeLibraryEmpty,
               actionLabel: l10n.homeAddFirstFile,
-              onAction: () => context.go(RoutePaths.library),
+              onAction: () => context.push(RoutePaths.fileImport),
             ),
             if (user != null) ...[
               const SizedBox(height: AppSpacing.xl),
@@ -132,7 +132,7 @@ class _QuickActionsGrid extends StatelessWidget {
             gradientColors: AppColors.brandGradient,
             title: l10n.homeAddFile,
             subtitle: l10n.homeAddFileSubtitle,
-            onTap: () => _comingSoon(context, l10n.featureUnderConstruction),
+            onTap: () => context.push(RoutePaths.fileImport),
           ),
           _ActionCard(
             icon: Icons.menu_book_outlined,
@@ -150,13 +150,13 @@ class _QuickActionsGrid extends StatelessWidget {
 
         final perRow = isWide ? 3 : 2;
         final gap = AppSpacing.md;
-        final itemWidth =
-            (constraints.maxWidth - gap * (perRow - 1)) / perRow;
+        final itemWidth = (constraints.maxWidth - gap * (perRow - 1)) / perRow;
 
         return Wrap(
           spacing: gap,
           runSpacing: gap,
-          children: items.map((w) => SizedBox(width: itemWidth, child: w)).toList(),
+          children:
+              items.map((w) => SizedBox(width: itemWidth, child: w)).toList(),
         );
       },
     );

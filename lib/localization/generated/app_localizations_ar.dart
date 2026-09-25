@@ -272,4 +272,151 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get authErrorUnknown => 'حدث خطأ ما. حاول مجددًا.';
+
+  @override
+  String get importTitle => 'استيراد ملف';
+
+  @override
+  String get importSubtitle => 'تُقرأ الملفات على جهازك فقط ولا يُرفع أي شيء.';
+
+  @override
+  String get importPickButton => 'اختر ملفًا';
+
+  @override
+  String get importIdleTitle => 'جاهز للاستيراد';
+
+  @override
+  String get importIdleBody => 'اختر مستندًا وسيستخرج قارئ نصه، ويحدّد لغته، ويجهّزه للقارئ.';
+
+  @override
+  String get importFormatsHint => 'تُعالَج الملفات الكبيرة في الخلفية حتى يبقى التطبيق سريعًا.';
+
+  @override
+  String get importSupportedFormatsTitle => 'الصيغ المدعومة';
+
+  @override
+  String get importSupportedFormatsBody => 'PDF وDOCX وXLSX وPPTX وEPUB وTXT وCSV وHTML وRTF والصور (JPG وPNG وWEBP).';
+
+  @override
+  String get importLegacyFormatsTitle => 'ملفات Office القديمة';
+
+  @override
+  String get importLegacyFormatsBody => 'يتم التعرّف على DOC وPPT وXLS لكن لا يمكن قراءتها بعد.';
+
+  @override
+  String get importMaxSizeLabel => 'أقصى حجم';
+
+  @override
+  String get importCancelled => 'أُلغي اختيار الملف.';
+
+  @override
+  String get importStatusSelecting => 'بانتظار اختيار الملف...';
+
+  @override
+  String get importStatusValidating => 'جارٍ التحقق من الملف...';
+
+  @override
+  String get importStatusProcessing => 'جارٍ تجهيز الملف...';
+
+  @override
+  String get importStatusExtracting => 'جارٍ استخراج النص...';
+
+  @override
+  String get importStatusOcr => 'جارٍ قراءة الصورة (OCR)...';
+
+  @override
+  String get importStatusCompleted => 'اكتمل الاستيراد';
+
+  @override
+  String get importStatusFailed => 'فشل الاستيراد';
+
+  @override
+  String get fileErrorUnsupportedFile => 'نوع الملف غير مدعوم.';
+
+  @override
+  String get fileErrorInvalidFile => 'الملف غير صالح أو فارغ.';
+
+  @override
+  String get fileErrorFileTooLarge => 'حجم الملف أكبر من الحد المسموح.';
+
+  @override
+  String get fileErrorFileReadError => 'تعذّرت قراءة الملف.';
+
+  @override
+  String get fileErrorExtractionFailed => 'تعذّر استخراج النص من هذا الملف.';
+
+  @override
+  String get fileErrorOcrFailed => 'تعذّرت قراءة النص من هذه الصورة.';
+
+  @override
+  String get fileErrorEmptyContent => 'لم يُعثر على نص يمكن قراءته في هذا الملف.';
+
+  @override
+  String get fileErrorLanguageDetectionFailed => 'تعذّر تحديد لغة هذا الملف.';
+
+  @override
+  String get fileErrorLegacyFormat => 'لا يمكن قراءة ملفات DOC وPPT وXLS بعد.';
+
+  @override
+  String get importDoneTitle => 'تم استيراد الملف';
+
+  @override
+  String get importDoneHint => 'النص جاهز. فتحه في القارئ يأتي في المرحلة التالية.';
+
+  @override
+  String get importDoneLanguage => 'اللغة المكتشفة';
+
+  @override
+  String get importDoneCharacters => 'عدد الأحرف';
+
+  @override
+  String get importDonePages => 'عدد الصفحات';
+
+  @override
+  String get importDoneSize => 'الحجم';
+
+  @override
+  String get importDoneSource => 'مصدر النص';
+
+  @override
+  String get importSourceOcr => 'قراءة صور (OCR)';
+
+  @override
+  String get importSourceText => 'استخراج نص';
+
+  @override
+  String get importAgainButton => 'استيراد ملف آخر';
+
+  @override
+  String get importLanguageUnknown => 'غير معروفة';
+
+  @override
+  String get languageAr => 'العربية';
+
+  @override
+  String get languageEn => 'الإنجليزية';
+
+  @override
+  String get languageFr => 'الفرنسية';
+
+  @override
+  String get languageEs => 'الإسبانية';
+
+  @override
+  String get languageDe => 'الألمانية';
+
+  @override
+  String get languageTr => 'التركية';
+
+  @override
+  String get languageIt => 'الإيطالية';
+
+  @override
+  String get languagePt => 'البرتغالية';
+
+  @override
+  String get languageZh => 'الصينية';
+
+  @override
+  String get languageHi => 'الهندية';
 }

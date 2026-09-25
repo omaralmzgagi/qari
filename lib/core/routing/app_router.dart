@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/auth/presentation/auth_providers.dart';
 import '../../features/auth/presentation/screens/auth_loading_page.dart';
+import '../../features/files/presentation/file_import_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/info/presentation/info_screen.dart';
 import '../../features/library/presentation/library_screen.dart';
@@ -42,6 +43,11 @@ GoRouter buildAppRouter(Ref ref) {
         path: RoutePaths.authLoading,
         name: 'authLoading',
         builder: (context, state) => const AuthLoadingPage(),
+      ),
+      GoRoute(
+        path: RoutePaths.fileImport,
+        name: 'fileImport',
+        builder: (context, state) => const FileImportScreen(),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>

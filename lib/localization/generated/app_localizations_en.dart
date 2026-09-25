@@ -272,4 +272,151 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authErrorUnknown => 'Something went wrong. Please try again.';
+
+  @override
+  String get importTitle => 'Import a file';
+
+  @override
+  String get importSubtitle => 'Files are read on your device. Nothing is uploaded.';
+
+  @override
+  String get importPickButton => 'Choose a file';
+
+  @override
+  String get importIdleTitle => 'Ready to import';
+
+  @override
+  String get importIdleBody => 'Pick a document and QARI extracts its text, detects the language and prepares it for the Reader.';
+
+  @override
+  String get importFormatsHint => 'Large files are processed in the background so the app stays responsive.';
+
+  @override
+  String get importSupportedFormatsTitle => 'Supported formats';
+
+  @override
+  String get importSupportedFormatsBody => 'PDF, DOCX, XLSX, PPTX, EPUB, TXT, CSV, HTML, RTF and images (JPG, PNG, WEBP).';
+
+  @override
+  String get importLegacyFormatsTitle => 'Legacy Office files';
+
+  @override
+  String get importLegacyFormatsBody => 'DOC, PPT and XLS are recognised but cannot be read yet.';
+
+  @override
+  String get importMaxSizeLabel => 'Maximum size';
+
+  @override
+  String get importCancelled => 'File selection was cancelled.';
+
+  @override
+  String get importStatusSelecting => 'Waiting for file selection...';
+
+  @override
+  String get importStatusValidating => 'Checking the file...';
+
+  @override
+  String get importStatusProcessing => 'Preparing the file...';
+
+  @override
+  String get importStatusExtracting => 'Extracting text...';
+
+  @override
+  String get importStatusOcr => 'Reading the image (OCR)...';
+
+  @override
+  String get importStatusCompleted => 'Import finished';
+
+  @override
+  String get importStatusFailed => 'Import failed';
+
+  @override
+  String get fileErrorUnsupportedFile => 'This file type is not supported.';
+
+  @override
+  String get fileErrorInvalidFile => 'This file is not valid or is empty.';
+
+  @override
+  String get fileErrorFileTooLarge => 'This file is larger than the allowed limit.';
+
+  @override
+  String get fileErrorFileReadError => 'The file could not be read.';
+
+  @override
+  String get fileErrorExtractionFailed => 'Text could not be extracted from this file.';
+
+  @override
+  String get fileErrorOcrFailed => 'Text could not be read from this image.';
+
+  @override
+  String get fileErrorEmptyContent => 'No readable text was found in this file.';
+
+  @override
+  String get fileErrorLanguageDetectionFailed => 'The language of this file could not be detected.';
+
+  @override
+  String get fileErrorLegacyFormat => 'DOC, PPT and XLS files cannot be read yet.';
+
+  @override
+  String get importDoneTitle => 'File imported';
+
+  @override
+  String get importDoneHint => 'The text is ready. Opening it in the Reader arrives in the next phase.';
+
+  @override
+  String get importDoneLanguage => 'Detected language';
+
+  @override
+  String get importDoneCharacters => 'Characters';
+
+  @override
+  String get importDonePages => 'Pages';
+
+  @override
+  String get importDoneSize => 'Size';
+
+  @override
+  String get importDoneSource => 'Text source';
+
+  @override
+  String get importSourceOcr => 'Image recognition (OCR)';
+
+  @override
+  String get importSourceText => 'Text extraction';
+
+  @override
+  String get importAgainButton => 'Import another file';
+
+  @override
+  String get importLanguageUnknown => 'Unknown';
+
+  @override
+  String get languageAr => 'Arabic';
+
+  @override
+  String get languageEn => 'English';
+
+  @override
+  String get languageFr => 'French';
+
+  @override
+  String get languageEs => 'Spanish';
+
+  @override
+  String get languageDe => 'German';
+
+  @override
+  String get languageTr => 'Turkish';
+
+  @override
+  String get languageIt => 'Italian';
+
+  @override
+  String get languagePt => 'Portuguese';
+
+  @override
+  String get languageZh => 'Chinese';
+
+  @override
+  String get languageHi => 'Hindi';
 }

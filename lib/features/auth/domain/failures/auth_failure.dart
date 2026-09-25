@@ -15,8 +15,7 @@ class AuthFailure {
   bool get isCancelled => code == AuthFailureCode.googleSignInCancelled;
 
   @override
-  bool operator ==(Object other) =>
-      other is AuthFailure && other.code == code;
+  bool operator ==(Object other) => other is AuthFailure && other.code == code;
 
   @override
   int get hashCode => code.hashCode;

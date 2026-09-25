@@ -42,6 +42,15 @@ android {
     }
 }
 
+dependencies {
+    // ML Kit text recognition: the base artifact (Latin) comes with
+    // google_mlkit_text_recognition. Only the two extra scripts QARI's
+    // language set needs are added here — Chinese and Devanagari (Hindi).
+    // There is no Arabic text-recognition script in ML Kit.
+    implementation 'com.google.mlkit:text-recognition-chinese:16.0.1'
+    implementation 'com.google.mlkit:text-recognition-devanagari:16.0.1'
+}
+
 flutter {
     source = "../.."
 }

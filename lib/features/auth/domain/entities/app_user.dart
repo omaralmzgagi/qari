@@ -61,8 +61,9 @@ class AppUser {
       name: json['name'] as String?,
       photoUrl: json['photoUrl'] as String?,
       role: UserRole.fromName(json['role'] as String?),
-      provider: AuthProviderKind.values.asNameMap()[json['provider'] as String?] ??
-          AuthProviderKind.unknown,
+      provider:
+          AuthProviderKind.values.asNameMap()[json['provider'] as String?] ??
+              AuthProviderKind.unknown,
     );
   }
 

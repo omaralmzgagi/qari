@@ -628,6 +628,300 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get authErrorUnknown;
+
+  /// No description provided for @importTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import a file'**
+  String get importTitle;
+
+  /// No description provided for @importSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Files are read on your device. Nothing is uploaded.'**
+  String get importSubtitle;
+
+  /// No description provided for @importPickButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a file'**
+  String get importPickButton;
+
+  /// No description provided for @importIdleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to import'**
+  String get importIdleTitle;
+
+  /// No description provided for @importIdleBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a document and QARI extracts its text, detects the language and prepares it for the Reader.'**
+  String get importIdleBody;
+
+  /// No description provided for @importFormatsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Large files are processed in the background so the app stays responsive.'**
+  String get importFormatsHint;
+
+  /// No description provided for @importSupportedFormatsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Supported formats'**
+  String get importSupportedFormatsTitle;
+
+  /// No description provided for @importSupportedFormatsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF, DOCX, XLSX, PPTX, EPUB, TXT, CSV, HTML, RTF and images (JPG, PNG, WEBP).'**
+  String get importSupportedFormatsBody;
+
+  /// No description provided for @importLegacyFormatsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Legacy Office files'**
+  String get importLegacyFormatsTitle;
+
+  /// No description provided for @importLegacyFormatsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'DOC, PPT and XLS are recognised but cannot be read yet.'**
+  String get importLegacyFormatsBody;
+
+  /// No description provided for @importMaxSizeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum size'**
+  String get importMaxSizeLabel;
+
+  /// No description provided for @importCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'File selection was cancelled.'**
+  String get importCancelled;
+
+  /// No description provided for @importStatusSelecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for file selection...'**
+  String get importStatusSelecting;
+
+  /// No description provided for @importStatusValidating.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking the file...'**
+  String get importStatusValidating;
+
+  /// No description provided for @importStatusProcessing.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing the file...'**
+  String get importStatusProcessing;
+
+  /// No description provided for @importStatusExtracting.
+  ///
+  /// In en, this message translates to:
+  /// **'Extracting text...'**
+  String get importStatusExtracting;
+
+  /// No description provided for @importStatusOcr.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading the image (OCR)...'**
+  String get importStatusOcr;
+
+  /// No description provided for @importStatusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Import finished'**
+  String get importStatusCompleted;
+
+  /// No description provided for @importStatusFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Import failed'**
+  String get importStatusFailed;
+
+  /// No description provided for @fileErrorUnsupportedFile.
+  ///
+  /// In en, this message translates to:
+  /// **'This file type is not supported.'**
+  String get fileErrorUnsupportedFile;
+
+  /// No description provided for @fileErrorInvalidFile.
+  ///
+  /// In en, this message translates to:
+  /// **'This file is not valid or is empty.'**
+  String get fileErrorInvalidFile;
+
+  /// No description provided for @fileErrorFileTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'This file is larger than the allowed limit.'**
+  String get fileErrorFileTooLarge;
+
+  /// No description provided for @fileErrorFileReadError.
+  ///
+  /// In en, this message translates to:
+  /// **'The file could not be read.'**
+  String get fileErrorFileReadError;
+
+  /// No description provided for @fileErrorExtractionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Text could not be extracted from this file.'**
+  String get fileErrorExtractionFailed;
+
+  /// No description provided for @fileErrorOcrFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Text could not be read from this image.'**
+  String get fileErrorOcrFailed;
+
+  /// No description provided for @fileErrorEmptyContent.
+  ///
+  /// In en, this message translates to:
+  /// **'No readable text was found in this file.'**
+  String get fileErrorEmptyContent;
+
+  /// No description provided for @fileErrorLanguageDetectionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The language of this file could not be detected.'**
+  String get fileErrorLanguageDetectionFailed;
+
+  /// No description provided for @fileErrorLegacyFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'DOC, PPT and XLS files cannot be read yet.'**
+  String get fileErrorLegacyFormat;
+
+  /// No description provided for @importDoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'File imported'**
+  String get importDoneTitle;
+
+  /// No description provided for @importDoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The text is ready. Opening it in the Reader arrives in the next phase.'**
+  String get importDoneHint;
+
+  /// No description provided for @importDoneLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Detected language'**
+  String get importDoneLanguage;
+
+  /// No description provided for @importDoneCharacters.
+  ///
+  /// In en, this message translates to:
+  /// **'Characters'**
+  String get importDoneCharacters;
+
+  /// No description provided for @importDonePages.
+  ///
+  /// In en, this message translates to:
+  /// **'Pages'**
+  String get importDonePages;
+
+  /// No description provided for @importDoneSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Size'**
+  String get importDoneSize;
+
+  /// No description provided for @importDoneSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Text source'**
+  String get importDoneSource;
+
+  /// No description provided for @importSourceOcr.
+  ///
+  /// In en, this message translates to:
+  /// **'Image recognition (OCR)'**
+  String get importSourceOcr;
+
+  /// No description provided for @importSourceText.
+  ///
+  /// In en, this message translates to:
+  /// **'Text extraction'**
+  String get importSourceText;
+
+  /// No description provided for @importAgainButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Import another file'**
+  String get importAgainButton;
+
+  /// No description provided for @importLanguageUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get importLanguageUnknown;
+
+  /// No description provided for @languageAr.
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic'**
+  String get languageAr;
+
+  /// No description provided for @languageEn.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get languageEn;
+
+  /// No description provided for @languageFr.
+  ///
+  /// In en, this message translates to:
+  /// **'French'**
+  String get languageFr;
+
+  /// No description provided for @languageEs.
+  ///
+  /// In en, this message translates to:
+  /// **'Spanish'**
+  String get languageEs;
+
+  /// No description provided for @languageDe.
+  ///
+  /// In en, this message translates to:
+  /// **'German'**
+  String get languageDe;
+
+  /// No description provided for @languageTr.
+  ///
+  /// In en, this message translates to:
+  /// **'Turkish'**
+  String get languageTr;
+
+  /// No description provided for @languageIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Italian'**
+  String get languageIt;
+
+  /// No description provided for @languagePt.
+  ///
+  /// In en, this message translates to:
+  /// **'Portuguese'**
+  String get languagePt;
+
+  /// No description provided for @languageZh.
+  ///
+  /// In en, this message translates to:
+  /// **'Chinese'**
+  String get languageZh;
+
+  /// No description provided for @languageHi.
+  ///
+  /// In en, this message translates to:
+  /// **'Hindi'**
+  String get languageHi;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

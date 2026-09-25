@@ -15,7 +15,8 @@ final settingsServiceProvider = Provider<SettingsService>((ref) {
 });
 
 /// Loaded application settings state.
-final settingsControllerProvider = AsyncNotifierProvider<SettingsController, AppSettings>(
+final settingsControllerProvider =
+    AsyncNotifierProvider<SettingsController, AppSettings>(
   SettingsController.new,
 );
 

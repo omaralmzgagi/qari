@@ -43,9 +43,8 @@ class BrandLogoWidget extends StatelessWidget {
             gradientEnabled: false,
           );
 
-    final titleColor = b == Brightness.dark
-        ? const Color(0xFFF1F5F9)
-        : AppColors.primaryText;
+    final titleColor =
+        b == Brightness.dark ? const Color(0xFFF1F5F9) : AppColors.primaryText;
 
     final Widget title = Column(
       mainAxisSize: MainAxisSize.min,

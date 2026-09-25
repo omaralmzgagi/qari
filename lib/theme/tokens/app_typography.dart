@@ -66,8 +66,7 @@ abstract final class AppTypography {
     );
   }
 
-  static TextStyle display(Brightness brightness) =>
-      _base(brightness).copyWith(
+  static TextStyle display(Brightness brightness) => _base(brightness).copyWith(
         fontSize: AppFontSizes.display,
         fontWeight: AppFontWeights.extraBold,
         height: AppLineHeights.tight,
@@ -81,14 +80,14 @@ abstract final class AppTypography {
         height: AppLineHeights.tight,
       );
 
-  static TextStyle title(Brightness brightness) =>
-      _base(brightness).copyWith(
+  static TextStyle title(Brightness brightness) => _base(brightness).copyWith(
         fontSize: AppFontSizes.xxl,
         fontWeight: AppFontWeights.semiBold,
         height: AppLineHeights.tight,
       );
 
-  static TextStyle subtitle(Brightness brightness) => _base(brightness).copyWith(
+  static TextStyle subtitle(Brightness brightness) =>
+      _base(brightness).copyWith(
         fontSize: AppFontSizes.lg,
         fontWeight: AppFontWeights.medium,
         color: AppColors.secondaryTextOn(brightness),
@@ -99,7 +98,8 @@ abstract final class AppTypography {
         fontWeight: AppFontWeights.regular,
       );
 
-  static TextStyle bodySmall(Brightness brightness) => _base(brightness).copyWith(
+  static TextStyle bodySmall(Brightness brightness) =>
+      _base(brightness).copyWith(
         fontSize: AppFontSizes.sm,
         color: AppColors.secondaryTextOn(brightness),
       );
